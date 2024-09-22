@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flor</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            transition: background 1s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fondo del día */
+        .day {
+            background: linear-gradient(to top, #87CEEB, #ffffff);
+        }
+
+        /* Fondo de la noche */
+        .night {
+            background: linear-gradient(to top, #001d3d, #005f73);
+        }
+
+        .flower-container {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            animation: rotate 5s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .petal {
+            position: absolute;
+            width: 100px;
+            height: 50px;
+            background: radial-gradient(circle, #fcd34d, #d1a04d);
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .petal1 { transform: rotate(0deg) translateX(50px); }
+        .petal2 { transform: rotate(60deg) translateX(50px); }
+        .petal3 { transform: rotate(120deg) translateX(50px); }
+        .petal4 { transform: rotate(180deg) translateX(50px); }
+        .petal5 { transform: rotate(240deg) translateX(50px); }
+        .petal6 { transform: rotate(300deg) translateX(50px); }
+
+        .center {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #b88d5c, #7f6b4d);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .instruction {
+            margin-bottom: 80px; /* Espacio arriba de la flor */
+            font-size: 22px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            color: #fff;
+            margin-top: 60px; /* Para subir más el texto */
+        }
+
+        /* Ventana emergente */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 600px;
+            border-radius: 10px;
+            text-align: left;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Animación de la abeja */
+        .bee {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Bee.png/1024px-Bee.png') no-repeat center;
+            background-size: contain;
+            animation: fly 5s linear infinite;
+        }
+
+        @keyframes fly {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(50px, -50px); }
+            50% { transform: translate(0, 50px); }
+            75% { transform: translate(-50px, -50px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .buttons {
+            margin-top: 100px; /* Aumentar espacio abajo de la flor */
+            display: flex;
+            gap: 20px;
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .day-button {
+            background-color: #4caf50;
+            color: white;
+        }
+
+        .night-button {
+            background-color: #2196F3;
+            color: white;
+        }
+
+        .button:hover {
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body class="day">
+    <div class="instruction">¡Presiona la flor!</div>
+    
+    <!-- Flor -->
+    <div class="flower-container" onclick="showPoem()">
+        <div class="petal petal1"></div>
+        <div class="petal petal2"></div>
+        <div class="petal petal3"></div>
+        <div class="petal petal4"></div>
+        <div class="petal petal5"></div>
+        <div class="petal petal6"></div>
+        <div class="center"></div>
+        <div class="bee"></div>
+    </div>
+
+    <!-- Ventana emergente -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p>Querida Belen,</p>
+            <p>En el cielo claro del día,<br>
+            brillas como el sol en la lejanía.<br>
+            En la noche oscura, bajo la luna,<br>
+            tu luz es la guía que siempre se asuna.</p>
+            <p>Cada hoja, cada flor,<br>
+            refleja el valor de nuestra amistad y lo que fue nuestro amor.<br>
+            agradesco cada paso, juntos avanzamos,<br>
+            en este camino, siempre nos encontramos.</p>
+            <p>Con aprecio sincero, Ryan.</p>
+        </div>
+    </div>
+
+    <!-- Botones -->
+    <div class="buttons">
+        <button class="button day-button" onclick="changeToDay()">Día</button>
+        <button class="button night-button" onclick="changeToNight()">Noche</button>
+    </div>
+
+    <script>
+        function changeToDay() {
+            document.body.className = "day";
+        }
+
+        function changeToNight() {
+            document.body.className = "night";
+        }
+
+        function showPoem() {
+            document.getElementById("myModal").style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // Cerrar el modal cuando se hace clic fuera de él
+        window.onclick = function(event) {
+            if (event.target == document.getElementById("myModal")) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
